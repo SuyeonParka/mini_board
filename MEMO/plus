@@ -1,0 +1,1 @@
+PS D:\Students\PHPFULLSTACK\mini_board> xcopy D:\Students\PHPFULLSTACK\mini_board\src C:\Apache24\htdocs\src /E /H /F /Y

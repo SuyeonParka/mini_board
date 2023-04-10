@@ -1,0 +1,36 @@
+@charset "uft-8";
+
+*{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    }
+
+a {
+    text-decoration: none;
+    color: #333;
+    
+    }
+
+thead {
+    text-shadow: 10px;
+    font-size: 20px;
+}
+div {
+    display: inline-block;
+    width: 2.5vw;
+    height: 2.5vh;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+}
+a:hover {
+    color : lightblue;
+}
+a:active {
+    color : blue;
+}
+
+td:hover {
+    color: lightblue;
+    opacity: .5;
+}
