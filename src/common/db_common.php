@@ -28,46 +28,44 @@ function db_conn( &$param_conn)
 
 function select_board_info_paging( &$param_arr )
 {
-    $sql = 
-        " SELECT "
-        ."  board_no "
-        ."  ,board_title "
-        ."  ,board_write_date "
-        ." FROM "
-        ."  board_info "
-        ." WHERE "
-        ."  board_del_flg = '0' "
-        ." ORDER BY "
-        ."  board_no DESC "
-        ." LIMIT :limit_num OFFSET :offset "
-        ;
+    $sql =
+    " SELECT "
+    ." board_no"
+    ." ,board_title"
+    ." ,board_write_date"
+    ." FROM "
+    ." board_info "
+    ." WHERE "
+    ." board_del_flg = '0' "
+    ." ORDER BY "
+    ." board_no DESC "
+    ." LIMIT :limit_num OFFSET :offset "
+    ;
 
-$arr_prepare =
-    array
-    (
-        ":limit_num" => $param_arr["limit_num"]
-        ,":offset"   => $param_arr["offset"]
-    );
-
-    $conn = null; //커넥션 받을 변수 초기화
+    $arr_prepare =
+        array(
+                ":limit_num" => $param_arr["limit_num"]
+                ,":offset" => $param_arr["offset"]
+        );
+    $conn = null;
     try 
     {
-        db_conn( $conn );
-        $stmt = $conn -> prepare( $sql );
-        $stmt -> execute( $arr_prepare );
-        $result = $stmt->fetchAll();
+        db_conn($conn);
+        $stmt = $conn->prepare($sql);
+        $stmt->execute( $arr_prepare );
+        $result = $stmt->fetchAll();    
     } 
-    catch ( Exception $e ) 
+    catch ( Exception $e) 
     {
-        return $e->getMessage(); //에러시 이 리턴사용
+        return $e->getMessage();
     }
     finally
     {
-        $conn = null; //(db연결) 초기화(conn까지하고 conn을 계속 유지하면 다른 사람들이 못붙음(한계가있음))
+        $conn = null;
     }
-
-    return $result;//위에서(오류때문에 catch의 return이 작동하면) 리턴하면 작동안함, 오류없어서 catch가 작동안할 때 이 return 작동
+    return $result;
 }
+
 
 function select_board_info_cnt()
 {
@@ -99,20 +97,139 @@ function select_board_info_cnt()
         $conn = null; 
     }
 
-    return $result;
+    return $result; //board_no가 pk이기 때문에 값을 정해줌
 }
 
-//  TODO : test Start
-// $arr = 
-//     array(
-//         "limit_num" => 5
-//         ,"offset"   => 0
-//     );
-// $result = select_board_info_paging( $arr ); //함수호출(함수실행)
+/*---------------------------------------
+함수명 : select_board_info_no
+기능   : 게시글 특정 게시글 정보 검색
+파라미터 : int    &$param_arr
+리턴값  : array     $result
+--------------------------------------*/
+function select_board_info_no( &$param_no )
+{
+    $sql = 
+        " SELECT "
+        ."  board_no "
+        ." ,board_title"
+        ." ,board_contents"
+        ." FROM "
+        ."  board_info "
+        ." WHERE "
+        ."  board_no = :board_no "
+        ;
 
-// print_r( $result );
+$arr_prepare =
+    array
+    (
+        ":board_no" => $param_no
+    );
 
-//  TODO : test End
+    $conn = null; //커넥션 받을 변수 초기화
+    try 
+    {
+        db_conn( $conn );
+        $stmt = $conn -> prepare( $sql );
+        $stmt -> execute( $arr_prepare );
+        $result = $stmt->fetchAll();
+    } 
+    catch ( Exception $e ) 
+    {
+        return $e->getMessage(); //에러시 이 리턴사용
+    }
+    finally
+    {
+        $conn = null; //(db연결) 초기화(conn까지하고 conn을 계속 유지하면 다른 사람들이 못붙음(한계가있음))
+    }
+
+    return $result[0];//위에서(오류때문에 catch의 return이 작동하면) 리턴하면 작동안함, 오류없어서 catch가 작동안할 때 이 return 작동
+}
+
+/*--------------------------------------------------
+함수명 : update_board_info_no
+기능   : 게시판 특정 게시글 정보 수정
+파라미터 : Array    &$param_no
+리턴값  : INT/STRING    $result_cnt/ERRMSG
+-------------------------------------------------*/
+function update_board_info_no( &$param_arr )
+{
+    $sql = 
+        " UPDATE "
+        ."  board_info "
+        ." SET "
+        ."  board_title = :board_title"
+        ."  ,board_contents = :board_contents "
+        ." WHERE "
+        ." board_no = :board_no "
+        ;
+
+    $arr_prepare =
+        array(
+            ":board_title" => $param_arr["board_title"]
+            ,":board_contents" => $param_arr["board_contents"]
+            ,":board_no" => $param_arr["board_no"]  
+        );
+
+    $conn = null; 
+    try 
+    {
+        db_conn( $conn ); //DB연결
+        $conn->beginTransaction();  // Transaction 시작
+        $stmt = $conn -> prepare( $sql ); // statement object 셋팅
+        $stmt -> execute( $arr_prepare ); // DB request
+        $result_cnt = $stmt->rowCount();  // query 적용 recode 개수
+        $conn->commit();
+    } 
+    catch ( Exception $e ) 
+    {
+        $conn->rollBack();
+        return $e->getMessage(); 
+    }
+    finally
+    {
+        $conn = null; 
+    }
+
+    return $result_cnt;
+}
+$arr =
+    array(
+        "board_no" => 1
+        ,"board_title" => "test1"
+        ,"board_contents" => "testtest1"
+    );
+
+// echo update_board_info_no( $arr );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+fetch가져올때는 2차원 배열로
+array(
+    array(
+        "board_no" => "1"
+        ,"board_title" => "제목1"
+    )
+    ,
+    array(
+        "board_no" => "2"
+        ,"board_title" => "제목2"
+    )
+)
+*/
+
+
 
 
 

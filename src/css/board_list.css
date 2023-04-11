@@ -1,0 +1,52 @@
+@charset "uft-8";
+
+*{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    }
+html {
+    background: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
+    background-repeat: no-repeat;
+}
+body {
+    width: 800px;
+    height: 400px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: rgb(240, 170, 240);
+    font-weight: 900;
+    text-shadow: 2px 2px 5px rgb(129, 127, 129);
+    
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+    }
+
+thead {
+    color: rgb(240, 170, 240);
+    text-shadow: 1px 1px rgb(129, 127, 129);
+    font-size: 20px;
+}
+
+div {
+    display: inline-block;
+    width: 2.5vw;
+    height: 2.5vh;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+}
+a:hover {
+    color : #f1f1f1;
+}
+
+td:hover {
+    color: #f1f1f1;
+    opacity: .5;
+}
+
+

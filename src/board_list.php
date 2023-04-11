@@ -3,6 +3,7 @@
     define( "URL_DB", DOC_ROOT."src/common/db_common.php" );
     include_once( URL_DB );
 
+    //get 체크
     if( array_key_exists( "page_num", $_GET) )
     {
         $page_num = $_GET["page_num"];
@@ -13,7 +14,7 @@
     }
 
     $limit_num = 5;
-    
+
     //게시판 정보 테이블 전체 카운트 획득
     $result_cnt = select_board_info_cnt();
 
@@ -21,7 +22,7 @@
     //offset 계산
     $offset = ( $page_num * $limit_num) - $limit_num;
 
-    // max page 번호, int로 형변환
+    // max page 번호, int로 형변환, (전체블럭수)
     $max_page_num = ceil( (int)$result_cnt[0]["cnt"] / $limit_num );
 
     $arr_prepare = 
@@ -42,10 +43,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="stylesheet" href="../src/common/board_list.css">
+    <link rel="stylesheet" href="../src/css/board_list.css">
     <title>게시판</title>
 </head>
 <body>
+    <h1>BOARD</h1>
     <table class='table'>
         <thead>
             <tr>
@@ -56,29 +58,50 @@
         </thead>
         <tbody class="table-group-divider">
             <?php //php
-                foreach ( $result_paging as $recode ) 
+                foreach ( $result_paging as $record ) 
                 {
             ?>  
                 <tr> <!-- html -->
-                    <td><?php echo $recode["board_no"] ?></td> <!--db php (echo : 데이터 출력) -->
-                    <td><?php echo $recode["board_title"] ?></td>
-                    <td><?php echo $recode["board_write_date"] ?></td>
+                    <td><?php echo $record["board_no"] ?></td> <!--db php (echo : 데이터 출력) -->
+                    <td><a href="board_update.php?board_no=<?echo $record['board_no']?>"><?echo $record["board_title"] ?></a></td>
+                    <td><?php echo $record["board_write_date"] ?></td>
                 </tr>
             <?php //php
                 }
             ?>
         </tbody>
     </table>
+        <a href = 'board_list.php?page_num=1'>◀</a>
+        
     <?php
-        for ($i = 1; $i <= $max_page_num ; $i++) 
-        { 
+        echo "";
+        if($page_num != 1)
+        {
+            $previous_page = $page_num - 1;
+            echo "<a href='board_list.php?page_num={$previous_page}'>이전</a>";
+        }
+    ?>
+    <!-- 페이징 번호 -->
+    <?php
+        for ($i = 1; $i <= $max_page_num ; $i++)
+        {
     ?>
             <div><a href='board_list.php?page_num=<?php echo $i ?>'><?php echo $i ?></a> <!-- 페이지 나오게 하기 -->
             </div>
     <?php
         }
     ?>
+    <?php
+        if($page_num != $max_page_num) 
+        {
+            $next_page = $page_num + 1;
+            echo "<a href='board_list.php?page_num={$next_page}'>다음</a>";
+        }
+        echo "<a href='board_list.php?page_num={$max_page_num}'>▶</a>";
+    ?>
 
+    
+    
 </svg>
 </body>
 </html>
