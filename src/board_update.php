@@ -31,7 +31,10 @@
         $result_cnt = update_board_info_no( $arr_info );
         
         // select
-        $result_info = select_board_info_no( $arr_post["board_no"] );
+        // $result_info = select_board_info_no( $arr_post["board_no"] ); //0412 del
+
+        header( "Location: board_detail.php?board_no=".$arr_post["board_no"] );
+        exit(); // 바로 위의 행에서 redirect 했기 때문에 이후의 소스코드는 실행할 필요가 없음 꼭 닫아줘야함
     }
 
 ?>
@@ -42,30 +45,32 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="../src/css/board_update.css">
     <title>게시판</title>
 </head>
 <body>
-    <hr>
     <form method="post" action="board_update.php">
-    <label for="bno">게시글 번호 </label>
+    <label class="box_no_label"for="bno">게시글 번호 </label>
     <input class="box_no" type="text"  id="bno" name = "board_no" value="<?php echo $result_info['board_no'] ?>"readonly>
     <br>
-    <label for="title">게시글 제목 </label>
+    <label class="box_title_label" for="title">게시글 제목 </label>
     <input class="box_title" type="text" id="title" name = "board_title" value="<?php echo $result_info['board_title'] ?>">
     <br>
     <div class="contents">
-    <label for="contents">게시글 내용 </label>
-    <textarea name="contents" id="contents" cols="20" rows="10" placeholder="<?php echo $result_info['board_contents'] ?>"></textarea>
+    <label class="box_contents_label" for="contents">게시글 내용 </label>
+    <textarea name="contents" id="contents" cols="25" rows="10" placeholder="<?php echo $result_info['board_contents'] ?>"></textarea>
+    <br>
     </div>
     <br>
     <br>
     <button type="submit" class="btn1">change</button>
-    <button type="button" class="btn2"><a href = 'board_list.php?page_num=1'>first</a></button>
-    <button type="button" class="btn3">list</button>
-</div>
+    <button type="button" class="btn3">
+        <a href = 'board_update.php?board_no=<? echo $result_info["board_no"]?>'>
+        </a>
+        cancle
+    </button>
+    <button type="button" class="btn2"><a href = 'board_list.php'>list</a></button>
+    </div>
     </form>
-    <hr>
 </body>
 </html>

@@ -47,7 +47,8 @@
     <title>게시판</title>
 </head>
 <body>
-    <h1>BOARD</h1>
+    <img src="title.gif" alt="board">
+    <!-- <h1>BOARD</h1> -->
     <table class='table'>
         <thead>
             <tr>
@@ -63,7 +64,7 @@
             ?>  
                 <tr> <!-- html -->
                     <td><?php echo $record["board_no"] ?></td> <!--db php (echo : 데이터 출력) -->
-                    <td><a href="board_update.php?board_no=<?echo $record['board_no']?>"><?echo $record["board_title"] ?></a></td>
+                    <td><a href="board_detail.php?board_no=<?echo $record['board_no']?>"><?echo $record["board_title"] ?></a></td>
                     <td><?php echo $record["board_write_date"] ?></td>
                 </tr>
             <?php //php
@@ -71,14 +72,14 @@
             ?>
         </tbody>
     </table>
-        <a href = 'board_list.php?page_num=1'>◀</a>
+        <a href = 'board_list.php?page_num=<?php echo $page_num=1 ?>'>처음</a>
         
     <?php
         echo "";
         if($page_num != 1)
         {
             $previous_page = $page_num - 1;
-            echo "<a href='board_list.php?page_num={$previous_page}'>이전</a>";
+            echo "<a href='board_list.php?page_num=$previous_page'>이전</a>";
         }
     ?>
     <!-- 페이징 번호 -->
@@ -95,13 +96,9 @@
         if($page_num != $max_page_num) 
         {
             $next_page = $page_num + 1;
-            echo "<a href='board_list.php?page_num={$next_page}'>다음</a>";
+            echo "<a href='board_list.php?page_num=$next_page'>다음</a>";
         }
-        echo "<a href='board_list.php?page_num={$max_page_num}'>▶</a>";
     ?>
-
-    
-    
-</svg>
+        <a href='board_list.php?page_num=<?php echo $max_page_num ?>'>마지막</a>
 </body>
 </html>
