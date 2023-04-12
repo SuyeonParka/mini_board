@@ -55,8 +55,10 @@
     <label for="title">게시글 제목 </label>
     <input class="box_title" type="text" id="title" name = "board_title" value="<?php echo $result_info['board_title'] ?>">
     <br>
+    <div class="contents">
     <label for="contents">게시글 내용 </label>
-    <input class="box_contents" type="text" id="contents" name = "board_contents" value="<?php echo $result_info['board_contents'] ?>">
+    <textarea name="contents" id="contents" cols="20" rows="10" placeholder="<?php echo $result_info['board_contents'] ?>"></textarea>
+    </div>
     <br>
     <br>
     <button type="submit" class="btn1">change</button>

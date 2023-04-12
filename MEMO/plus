@@ -1,1 +1,3 @@
 PS D:\Students\PHPFULLSTACK\mini_board> xcopy D:\Students\PHPFULLSTACK\mini_board\src C:\Apache24\htdocs\src /E /H /F /Y
+
+<input class="box_contents" type="text" id="contents" name = "board_contents" value="<?php echo $result_info['board_contents'] ?>">
