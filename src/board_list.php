@@ -48,8 +48,9 @@
 </head>
 <body>
     <img src="title.gif" alt="board">
-    <!-- <h1>BOARD</h1> -->
+    <div id="con">
     <table class='table'>
+        <button class="new" type="button"><a href="board_insert.php">게시글 작성</a></button>
         <thead>
             <tr>
                 <th>게시글 번호</th>
@@ -73,13 +74,11 @@
         </tbody>
     </table>
         <a href = 'board_list.php?page_num=<?php echo $page_num=1 ?>'>처음</a>
-        
     <?php
-        echo "";
         if($page_num != 1)
         {
             $previous_page = $page_num - 1;
-            echo "<a href='board_list.php?page_num=$previous_page'>이전</a>";
+            echo "<a href='board.list.php?page_num=$previous_page'>이전</a>";
         }
     ?>
     <!-- 페이징 번호 -->
@@ -100,5 +99,6 @@
         }
     ?>
         <a href='board_list.php?page_num=<?php echo $max_page_num ?>'>마지막</a>
+    </div>
 </body>
 </html>

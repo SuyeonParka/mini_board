@@ -18,28 +18,27 @@ $result_info = select_board_info_no( $arr_get["board_no"] );
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../src/css/board_detail.css">
+    <link rel="stylesheet" href="../src/css/board_list.css">
     <title>Detail</title>
 </head>
 <body>
-    <hr>
     <h1>CONTENTS</h1>
-    <hr>
-    <div>
-        <p>게시글 번호 : <? echo $result_info["board_no"]?></p>
-        <p>작성일 : <? echo $result_info["board_write_date"]?></p>
-        <p>게시글 제목 : <? echo $result_info["board_title"]?></p>
-        <p>게시글 내용 : <? echo $result_info["board_contents"]?></p>
-    </div>
-    <button type="button">
+    <div class="detail_contents">
+        <p class="num">게시글 번호 : <? echo $result_info["board_no"]?></p>
+        <p class="date">작성일 : <? echo $result_info["board_write_date"]?></p>
+        <p class="title">게시글 제목 : <? echo $result_info["board_title"]?></p>
+        <p class="contents">게시글 내용 : <? echo $result_info["board_contents"]?></p>
+    
+    <button class="change" type="button">
         <a href="board_update.php?board_no=<? echo $result_info["board_no"]?>">
         수정
         </a>
     </button>
-    <button type="button">
+    <button class="del" type="button">
         <a href="board_delete.php?board_no=<? echo $result_info["board_no"]?>">
             삭제
         </a>
     </button>
+    </div>
 </body>
 </html>

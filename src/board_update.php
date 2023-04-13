@@ -1,6 +1,7 @@
 <?php
     define( "DOC_ROOT", $_SERVER["DOCUMENT_ROOT"]."/" );
     define( "URL_DB", DOC_ROOT."src/common/db_common.php" );
+    define( "URL_HEADER", DOC_ROOT."src/board_header.php" );
     include_once( URL_DB );
 
     // Request Method를 가져옴
@@ -49,6 +50,7 @@
     <title>게시판</title>
 </head>
 <body>
+    <? include_once( URL_HEADER ) ?>
     <form method="post" action="board_update.php">
     <label class="box_no_label"for="bno">게시글 번호 </label>
     <input class="box_no" type="text"  id="bno" name = "board_no" value="<?php echo $result_info['board_no'] ?>"readonly>

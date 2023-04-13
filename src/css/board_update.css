@@ -68,6 +68,7 @@ label:hover {
 }
 
 button {
+    font-family: 'Cafe24Ssurround';
     border-radius: 20px;
     color: #423f3f;
     border: none;
@@ -91,4 +92,14 @@ textarea {
     font-size: inherit;
     font-family: inherit;
 }
+
+.header {
+    width: 2.5vw;
+    height: 2vh;
+}
+
+.btn1 .btn2 .btn3{
+    display: grid;
+}
+
 
