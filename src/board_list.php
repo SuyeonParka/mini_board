@@ -22,7 +22,7 @@
     //offset 계산
     $offset = ( $page_num * $limit_num) - $limit_num;
 
-    // max page 번호, int로 형변환, (전체블럭수)
+    // max page 번호, int로 형변환, (전체블럭수) 전체 페이지 수 
     $max_page_num = ceil( (int)$result_cnt[0]["cnt"] / $limit_num );
 
     $arr_prepare = 
@@ -32,6 +32,22 @@
         );
     $result_paging = select_board_info_paging( $arr_prepare );
     // var_dump( $max_page_num );
+
+    // 한 블럭 당 페이지 수 
+    $list_num = 5;
+
+    //전체 블럭 수 
+    $total_block = ceil($max_page_num / $list_num);
+
+    //현재 블럭 번호
+    $now_block = ceil($page_num / $list_num);
+    
+    //블럭 당 시작 페이지 번호
+    $s_page_num = ($now_block - 1) * $list_num + 1;
+
+    //블럭 당 마지막 페이지 번호
+    $e_page_num = $now_block * $list_num;
+
 ?>
 
 
@@ -73,15 +89,16 @@
             ?>
         </tbody>
     </table>
-        <a href = 'board_list.php?page_num=<?php echo $page_num=1 ?>'>처음</a>
+    <!-- 페이징 번호 -->
+
+    <a href='board_list.php?page_num=<?php echo $page_num=1 ?>'>처음</a>
     <?php
-        if($page_num != 1)
+        if($page_num !== 1)
         {
             $previous_page = $page_num - 1;
-            echo "<a href='board.list.php?page_num=$previous_page'>이전</a>";
+            echo "<a href='board_list.php?page_num=$previous_page'>이전</a>";
         }
     ?>
-    <!-- 페이징 번호 -->
     <?php
         for ($i = 1; $i <= $max_page_num ; $i++)
         {

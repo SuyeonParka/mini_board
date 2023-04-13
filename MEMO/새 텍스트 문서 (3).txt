@@ -1,0 +1,8 @@
+  <a href = 'board_list.php?page_num=<?php echo $page_num=1 ?>'>처음</a>
+    <?php
+        if($page_num != 1)
+        {
+            $previous_page = $page_num - 1;
+            echo "<a href='board.list.php?page_num=$previous_page'>이전</a>";
+        }
+    ?>

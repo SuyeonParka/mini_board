@@ -1,0 +1,94 @@
+define( "DOC_ROOT", $_SERVER["DOCUMENT_ROOT"]."/" );
+define( "URL_DB", DOC_ROOT."src/common/db_common.php" );
+include_once( URL_DB );
+
+$arr_get = $_GET;
+
+$result_cnt = delete_board_info_no( $arr_get["board_no"] );
+
+header( "Location: board_list.php" );
+exit();
+-----------------------------------------detail----------------
+$arr_get = $_GET;
+
+// db에서 게시글 정보 획득
+$result_info = select_board_info_no( $arr_get["board_no"] );
+------------------------------------------------------------------
+$http_method = $_SERVER["REQUEST_METHOD"];
+
+if( $http_method === "POST" )
+   {
+        $arr_post = $_POST;
+
+        $result_cnt = insert_board_info( $arr_post );
+
+        // header( "Location: board_list.php" ); //update, delete
+        // exit();
+  }
+
+
+----------------페이징------------
+ //get 체크
+    if( array_key_exists( "page_num", $_GET) )
+    {
+        $page_num = $_GET["page_num"];
+    }
+    else 
+    {
+        $page_num = 1;    
+    }
+
+    $limit_num = 5;
+
+    //게시판 정보 테이블 전체 카운트 획득
+    $result_cnt = select_board_info_cnt();
+
+    //1페이지 일때 0, 2페이지 일때 5, 3페이지 일때 10 ...
+    //offset 계산
+    $offset = ( $page_num * $limit_num) - $limit_num;
+
+    // max page 번호, int로 형변환, (전체블럭수)
+    $max_page_num = ceil( (int)$result_cnt[0]["cnt"] / $limit_num );
+
+    $arr_prepare = 
+        array(
+            "limit_num" => $limit_num
+            ,"offset"   => $offset
+        );
+    $result_paging = select_board_info_paging( $arr_prepare );
+    // var_dump( $max_page_num );
+
+-------------------update
+ // Request Method를 가져옴
+    $http_method = $_SERVER["REQUEST_METHOD"];
+
+    //GET 일때
+    if( $http_method === "GET")
+    {
+        $board_no = 1;
+        if ( array_key_exists( "board_no", $_GET))
+        {
+            $board_no = $_GET["board_no"];
+        }
+        $result_info = select_board_info_no( $board_no );
+    }
+    // POST 일때 
+    else 
+    {
+        $arr_post = $_POST;
+        $arr_info =
+            array(
+                "board_no" => $arr_post["board_no"]
+                ,"board_title" => $arr_post["board_title"]
+                ,"board_contents" => $arr_post["board_contents"]
+            );
+
+        // update
+        $result_cnt = update_board_info_no( $arr_info );
+        
+        // select
+        // $result_info = select_board_info_no( $arr_post["board_no"] ); //0412 del
+
+        header( "Location: board_detail.php?board_no=".$arr_post["board_no"] );
+        exit();
+

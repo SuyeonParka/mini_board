@@ -5,7 +5,7 @@ define( "URL_DB", DOC_ROOT."src/common/db_common.php" );
 include_once( URL_DB );
 
 //request parameter 획득
-$arr_get = $_GET;
+$arr_get = $_GET; //get방식으로 가져온 배열을 여기에 넣음
 
 // db에서 게시글 정보 획득
 $result_info = select_board_info_no( $arr_get["board_no"] );

@@ -1,0 +1,39 @@
+ $host       = "localhost";
+    $user       = "root";
+    $pass       = "root506";
+    $charset    = "utf8mb4";
+    $db_name    = "board";
+    $dns        = "mysql:host=".$host.";dbname=".$db_name.";charset=".$charset;
+    $pdo_option = 
+        array(
+        PDO::ATTR_EMULATE_PREPARES      => false 
+        ,PDO::ATTR_ERRMODE              => PDO::ERRMODE_EXCEPTION   
+        ,PDO::ATTR_DEFAULT_FETCH_MODE   => PDO::FETCH_ASSOC
+        );
+
+    try //db연결 시 에러있을 시 아래 코드 실행
+    {
+        $param_conn = new PDO( $dns, $user, $pass, $pdo_option );
+    } 
+    catch ( Exception $e) 
+    {
+        $param_conn = null; //초기화
+        throw new Exception( $e->getMessage() );
+
+--------------------------try catch
+ try 
+    {
+        db_conn($conn);
+        $stmt = $conn->prepare($sql);
+        $stmt->execute( $arr_prepare );
+        $result = $stmt->fetchAll();    
+    } 
+    catch ( Exception $e) 
+    {
+        return $e->getMessage();
+    }
+    finally
+    {
+        $conn = null;
+    }
+    return $result;

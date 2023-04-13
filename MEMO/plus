@@ -1,3 +1,5 @@
 xcopy D:\Students\mini_board\src C:\Apache24\htdocs\src /E /H /F /Y
 
 <input class="box_contents" type="text" id="contents" name = "board_contents" value="<?php echo $result_info['board_contents'] ?>">
+
+쌤한테 리뷰? 팀전체 모여서 코드 주인 이유 
